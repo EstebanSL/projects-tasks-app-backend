@@ -1,3 +1,4 @@
+import { forgotEmail, registerEmail } from '../helpers/emails.js';
 import generateID from '../helpers/generateID.js';
 import generateJWT from '../helpers/generateJWT.js';
 import User from '../model/User.js';
@@ -15,8 +16,14 @@ const registerUser = async (req, res) => {
 
     const user = new User(req.body);
     user.token = generateID();
-    const savedUser = await user.save();
-    res.json(savedUser);
+    await user.save();
+
+    //Send email
+    registerEmail({email: user.email, username: user.username, token: user.token})
+
+    res.json({
+      msg: 'User created successfully, please watch your email to activate your account'
+    });
   } catch (error) {
     console.log(error);
   }
@@ -42,7 +49,7 @@ const loginUser = async (req, res) => {
     if (await user.verifyPassword(password)) {
       return res.json({
         _id: user._id,
-        name: user.name,
+        username: user.username,
         email: user.email,
         token: generateJWT(user._id),
       });
@@ -57,7 +64,6 @@ const loginUser = async (req, res) => {
 
 const confirmToken = async (req, res) => {
   const { token } = req.params;
-  console.log(token);
 
   try {
     const userToConfirm = await User.findOne({ token });
@@ -92,6 +98,9 @@ const resetPassword = async (req, res) => {
 
     user.token = generateID();
     await user.save();
+
+    forgotEmail({email: user.email, username: user.username, token: user.token})
+
     return res.status(200).json({
       msg: 'We sent an email with the instructions to reset your password',
     });
@@ -143,7 +152,9 @@ const saveNewPassword = async (req, res) => {
 };
 
 const getProfile = async (req, res) => {
-  console.log(req.user)
+  const user = req.user;
+
+  return res.status(200).json(user)
 };
 
 export {

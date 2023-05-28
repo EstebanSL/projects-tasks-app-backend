@@ -1,6 +1,10 @@
 import jwt from 'jsonwebtoken';
 import User from '../model/User.js';
 
+/**
+ * [checkAuth]
+ * Check if the user is authenticated
+ */
 const checkAuth = async (req, res, next) => {
   let token;
   if (

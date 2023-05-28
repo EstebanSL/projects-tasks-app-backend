@@ -1,6 +1,10 @@
 import Project from '../model/Project.js';
 import Task from '../model/Task.js';
 
+/**
+ * [createTask]
+ * @description Create a new task
+ */
 const createTask = async (req, res) => {
   const { project } = req.body;
 
@@ -29,6 +33,10 @@ const createTask = async (req, res) => {
   }
 };
 
+/**
+ * [getTask]
+ * @description Get a task information
+ */
 const getTask = async (req, res) => {
   const { id } = req.params;
 
@@ -51,6 +59,10 @@ const getTask = async (req, res) => {
   }
 };
 
+/**
+ * [editTask]
+ * @description edit the information of a task
+ */
 const editTask = async (req, res) => {
   const { id } = req.params;
 
@@ -80,6 +92,10 @@ const editTask = async (req, res) => {
   }
 };
 
+/**
+ * [deleteTask]
+ * @description Delete a task
+ */
 const deleteTask = async (req, res) => {
   const { id } = req.params;
 

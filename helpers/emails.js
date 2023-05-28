@@ -1,5 +1,10 @@
 import nodemailer from 'nodemailer'
 
+
+/**
+ * [registerEmail]
+ * Sends the register confirmation email through email transport helper
+ */
 export const registerEmail = async (data) => {
 
   const { email, username, token } = data
@@ -13,7 +18,7 @@ export const registerEmail = async (data) => {
     }
   });
 
-  const info = await transport.sendMail({
+  await transport.sendMail({
     from: 'PROJECT_TASKS_APP',
     to: email,
     subject: 'PROJECT_TASKS_APP, Confirm your account',
@@ -26,6 +31,10 @@ export const registerEmail = async (data) => {
   })
 }
 
+/**
+ * [forgotEmail]
+ * Sends the forgot password email through email transport helper
+ */
 export const forgotEmail = async (data) => {
 
   const { email, username, token } = data

@@ -7,16 +7,20 @@ import taskRoutes from './routes/taskRoutes.js';
 import cors from 'cors';
 import { Server } from 'socket.io';
 
+// INITIALIZATIONS
 const app = express();
 app.use(express.json());
 
+/** ENVIROMENT VARIABLES */
 dotenv.config();
 
+/** DATABASE */
 connectDB();
 
-//CORS
+/** CORS */
 const whitelist = [process.env.FRONTEND_URL];
 
+/**  */
 const options = {
   origin: (origin, callback) => {
     if (whitelist.includes(origin)) {
@@ -29,13 +33,14 @@ const options = {
 
 app.use(cors(options));
 
-//Routing
+/** ROUTING */
 app.use('/api/users', userRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/tasks', taskRoutes);
 
 const PORT = process.env.PORT || 4000;
 
+/** SERVER */
 const server = app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
 });
@@ -47,22 +52,19 @@ const io = new Server(server, {
   }
 })
 
+/** SOCKET CONNECTION */
 io.on('connection', (socket) => {
   socket.on('openProject', (project) => {
-    console.log(project);
     socket.join(project)
   })
 
   socket.on('createTask', (task) => {
-    console.log(socket.id, task.project)
     socket.to(task.project).emit('addedTask', task)
   })
   socket.on('deleteTask', (task) => {
-    console.log(socket.id, task.project)
     socket.to(task.project).emit('deletedTask', task)
   })
   socket.on('editTask', (task) => {
-    console.log(socket.id, task.project._id)
     socket.to(task.project._id).emit('editedTask', task)
   })
 })

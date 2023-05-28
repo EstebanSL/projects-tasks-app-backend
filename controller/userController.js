@@ -3,6 +3,10 @@ import generateID from '../helpers/generateID.js';
 import generateJWT from '../helpers/generateJWT.js';
 import User from '../model/User.js';
 
+/**
+ * [registerUser]
+ * @description Create a new user in the platform
+ */
 const registerUser = async (req, res) => {
   try {
     const { email } = req.body;
@@ -29,6 +33,10 @@ const registerUser = async (req, res) => {
   }
 };
 
+/**
+ * [loginUser]
+ * @description Login a user
+ */
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -62,6 +70,10 @@ const loginUser = async (req, res) => {
   }
 };
 
+/**
+ * [confirmToken]
+ * @description Confirm a user when the email link is confirmed
+ */
 const confirmToken = async (req, res) => {
   const { token } = req.params;
 
@@ -84,6 +96,10 @@ const confirmToken = async (req, res) => {
   }
 };
 
+/**
+ * [resetPassword]
+ * @description sends the email to reset the password
+ */
 const resetPassword = async (req, res) => {
   try {
     const { email } = req.body;
@@ -109,6 +125,10 @@ const resetPassword = async (req, res) => {
   }
 };
 
+/**
+ * [verifyToken]
+ * @description Verify if the change password url token is valid
+ */
 const verifyToken = async (req, res) => {
   const { token } = req.params;
 
@@ -128,6 +148,10 @@ const verifyToken = async (req, res) => {
   }
 };
 
+/**
+ * [saveNewPassword]
+ * @description Update the password of the user
+ */
 const saveNewPassword = async (req, res) => {
   const { token } = req.params;
   const { password } = req.body;
@@ -151,6 +175,10 @@ const saveNewPassword = async (req, res) => {
   }
 };
 
+/**
+ * [getProfile]
+ * @description Returns the profile information of the logged user
+ */
 const getProfile = async (req, res) => {
   const user = req.user;
 

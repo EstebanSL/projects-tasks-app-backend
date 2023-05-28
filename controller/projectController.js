@@ -1,6 +1,10 @@
 import Project from '../model/Project.js';
 import User from '../model/User.js';
 
+/**
+ * [getProjects]
+ * @description Returns the list of projects for the logged user
+ */
 const getProjects = async (req, res) => {
   try {
     const projects = await Project.find({
@@ -13,6 +17,10 @@ const getProjects = async (req, res) => {
   }
 };
 
+/**
+ * [createProject]
+ * @description Create a projects for the logged user
+ */
 const createProject = async (req, res) => {
   const project = new Project(req.body);
 
@@ -26,6 +34,10 @@ const createProject = async (req, res) => {
   }
 };
 
+/**
+ * [getProject]
+ * @description Returns a specific project for the logged user
+ */
 const getProject = async (req, res) => {
   const { id } = req.params;
 
@@ -56,6 +68,10 @@ const getProject = async (req, res) => {
   }
 };
 
+/**
+ * [editProject]
+ * @description Save the changes of a project for the logged user
+ */
 const editProject = async (req, res) => {
   const { id } = req.params;
 
@@ -86,6 +102,10 @@ const editProject = async (req, res) => {
   }
 };
 
+/**
+ * [deleteProject]
+ * @description Delete a project for the logged user
+ */
 const deleteProject = async (req, res) => {
   const { id } = req.params;
 
@@ -110,6 +130,10 @@ const deleteProject = async (req, res) => {
   }
 };
 
+/**
+ * [searchPartner]
+ * @description search a user that can be added as a partner
+ */
 const searchPartner = async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ email }).select(
@@ -124,6 +148,10 @@ const searchPartner = async (req, res) => {
   return res.status(200).json(user);
 };
 
+/**
+ * [addPartner]
+ * @description Add a partner to the project
+ */
 const addPartner = async (req, res) => {
   const project = await Project.findById(req.params.id);
 
@@ -141,8 +169,6 @@ const addPartner = async (req, res) => {
   const user = await User.findOne({ email }).select(
     '-password -confirmed -token -updatedAt -createdAt -__v'
   );
-
-  console.log(user);
 
   if (!user) {
     const error = new Error('User not found');
@@ -165,6 +191,10 @@ const addPartner = async (req, res) => {
   return res.status(200).json({ msg: 'Partner added successfully' });
 };
 
+/**
+ * [deletePartner]
+ * @description Delete a partner from a project
+ */
 const deletePartner = async (req, res) => {
   const project = await Project.findById(req.params.id);
 
